@@ -1,0 +1,38 @@
+name: MSBuild
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: 'recursive'
+        
+    - uses: seanmiddleditch/gha-setup-ninja@master
+    
+    - uses: ilammy/msvc-dev-cmd@v1
+    
+    - name: Generating Makefiles
+      shell: bash
+      run: |
+        cmake -S . -B build -G Ninja \
+          -DENABLE_TESTS=ON \
+          -DENABLE_UI=ON
+
+    - name: Compiling
+      shell: bash
+      run: |
+        cd build && ninja aseprite
+        
+    - name: Uploading
+      uses: actions/upload-artifact@v3
+      with:
+        name: aseprite-windows
+        path: aseprite.exe
