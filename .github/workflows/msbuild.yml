@@ -24,7 +24,7 @@ jobs:
     - name: Extract Skia
       shell: bash
       run: |
-        7z x -o skia Skia-Windows-Release-x64.zip
+        7z x -oskia Skia-Windows-Release-x64.zip
         
     - uses: seanmiddleditch/gha-setup-ninja@master
     
@@ -37,8 +37,8 @@ jobs:
           -DCMAKE_BUILD_TYPE=RelWithDebInfo \
           -DLAF_BACKEND=skia \
           -DSKIA_DIR=skia \
-          -DSKIA_LIBRARY_DIR=skia\out\Release-x64 \
-          -DSKIA_LIBRARY=skia\out\Release-x64\skia.lib
+          -DSKIA_LIBRARY_DIR=skia/out/Release-x64 \
+          -DSKIA_LIBRARY=skia/out/Release-x64/skia.lib
 
     - name: Compiling
       shell: bash
